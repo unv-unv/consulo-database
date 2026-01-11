@@ -42,7 +42,7 @@ public class DataSourceFileType implements FileType
 	@Override
 	public LocalizeValue getDescription()
 	{
-		return LocalizeValue.of();
+		return LocalizeValue.empty();
 	}
 
 	@Nonnull
