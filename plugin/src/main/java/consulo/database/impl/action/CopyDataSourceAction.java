@@ -23,48 +23,41 @@ import consulo.database.datasource.ui.DataSourceKeys;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.DumbAwareAction;
-
 import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
  * @since 2020-08-16
  */
-public class CopyDataSourceAction extends DumbAwareAction
-{
-	@Nonnull
-	private final EditableDataSourceModel myEditableDataSourceModel;
+public class CopyDataSourceAction extends DumbAwareAction implements AnActionWithSyncUpdate {
+    @Nonnull
+    private final EditableDataSourceModel myEditableDataSourceModel;
 
-	public CopyDataSourceAction(@Nonnull EditableDataSourceModel editableDataSourceModel)
-	{
-		super("Copy Datasource", null, AllIcons.Actions.Copy);
-		myEditableDataSourceModel = editableDataSourceModel;
-	}
+    public CopyDataSourceAction(@Nonnull EditableDataSourceModel editableDataSourceModel) {
+        super("Copy Datasource", null, AllIcons.Actions.Copy);
+        myEditableDataSourceModel = editableDataSourceModel;
+    }
 
-	@RequiredUIAccess
-	@Override
-	public void actionPerformed(@Nonnull AnActionEvent e)
-	{
-		Project project = e.getData(Project.KEY);
-		if(project == null)
-		{
-			return;
-		}
+    @RequiredUIAccess
+    @Override
+    public void actionPerformed(@Nonnull AnActionEvent e) {
+        Project project = e.getData(Project.KEY);
+        if (project == null) {
+            return;
+        }
 
-		DataSource source = e.getData(DataSourceKeys.DATASOURCE);
-		if(source == null)
-		{
-			return;
-		}
+        DataSource source = e.getData(DataSourceKeys.DATASOURCE);
+        if (source == null) {
+            return;
+        }
 
-		myEditableDataSourceModel.newDataSourceCopy(source.getName() + " Copy", source);
-	}
+        myEditableDataSourceModel.newDataSourceCopy(source.getName() + " Copy", source);
+    }
 
-	@RequiredUIAccess
-	@Override
-	public void update(@Nonnull AnActionEvent e)
-	{
-		e.getPresentation().setEnabled(e.getData(DataSourceKeys.DATASOURCE) != null);
-	}
+    @Override
+    public void update(@Nonnull AnActionEvent e) {
+        e.getPresentation().setEnabled(e.getData(DataSourceKeys.DATASOURCE) != null);
+    }
 }

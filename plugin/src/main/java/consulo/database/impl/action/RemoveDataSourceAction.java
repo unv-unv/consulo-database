@@ -24,8 +24,8 @@ import consulo.database.datasource.ui.DataSourceKeys;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.DumbAwareAction;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -33,50 +33,41 @@ import jakarta.annotation.Nullable;
  * @author VISTALL
  * @since 2020-08-12
  */
-public class RemoveDataSourceAction extends DumbAwareAction
-{
-	@Nullable
-	private final EditableDataSourceModel myModel;
+public class RemoveDataSourceAction extends DumbAwareAction implements AnActionWithSyncUpdate {
+    @Nullable
+    private final EditableDataSourceModel myModel;
 
-	public RemoveDataSourceAction(@Nullable EditableDataSourceModel model)
-	{
-		super("Remove", null, AllIcons.General.Remove);
-		myModel = model;
-	}
+    public RemoveDataSourceAction(@Nullable EditableDataSourceModel model) {
+        super("Remove", null, AllIcons.General.Remove);
+        myModel = model;
+    }
 
-	@RequiredUIAccess
-	@Override
-	public void actionPerformed(@Nonnull AnActionEvent e)
-	{
-		Project project = e.getData(Project.KEY);
-		if(project == null)
-		{
-			return;
-		}
+    @RequiredUIAccess
+    @Override
+    public void actionPerformed(@Nonnull AnActionEvent e) {
+        Project project = e.getData(Project.KEY);
+        if (project == null) {
+            return;
+        }
 
-		DataSource source = e.getData(DataSourceKeys.DATASOURCE);
-		if(source == null)
-		{
-			return;
-		}
+        DataSource source = e.getData(DataSourceKeys.DATASOURCE);
+        if (source == null) {
+            return;
+        }
 
-		if(myModel == null)
-		{
-			EditableDataSourceModel model = DataSourceManager.getInstance(project).createEditableModel();
-			model.removeDataSource(source.getId());
-			model.commit();
-		}
-		else
-		{
-			// do not commit if we have editable model
-			myModel.removeDataSource(source.getId());
-		}
-	}
+        if (myModel == null) {
+            EditableDataSourceModel model = DataSourceManager.getInstance(project).createEditableModel();
+            model.removeDataSource(source.getId());
+            model.commit();
+        }
+        else {
+            // do not commit if we have editable model
+            myModel.removeDataSource(source.getId());
+        }
+    }
 
-	@RequiredUIAccess
-	@Override
-	public void update(@Nonnull AnActionEvent e)
-	{
-		e.getPresentation().setEnabled(e.getData(DataSourceKeys.DATASOURCE) != null);
-	}
+    @Override
+    public void update(@Nonnull AnActionEvent e) {
+        e.getPresentation().setEnabled(e.getData(DataSourceKeys.DATASOURCE) != null);
+    }
 }

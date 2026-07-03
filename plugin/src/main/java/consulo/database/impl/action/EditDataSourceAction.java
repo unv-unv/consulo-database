@@ -23,40 +23,34 @@ import consulo.database.impl.configurable.editor.DataSourcesDialog;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.DumbAwareAction;
-
 import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
  * @since 2020-08-12
  */
-public class EditDataSourceAction extends DumbAwareAction
-{
-	public EditDataSourceAction()
-	{
-		super("Edit", null, AllIcons.Actions.Edit);
-	}
+public class EditDataSourceAction extends DumbAwareAction implements AnActionWithSyncUpdate {
+    public EditDataSourceAction() {
+        super("Edit", null, AllIcons.Actions.Edit);
+    }
 
-	@RequiredUIAccess
-	@Override
-	public void actionPerformed(@Nonnull AnActionEvent e)
-	{
-		DataSource dataSource = e.getData(DataSourceKeys.DATASOURCE);
-		Project project = e.getData(Project.KEY);
-		if(project == null || dataSource == null)
-		{
-			return;
-		}
+    @RequiredUIAccess
+    @Override
+    public void actionPerformed(@Nonnull AnActionEvent e) {
+        DataSource dataSource = e.getData(DataSourceKeys.DATASOURCE);
+        Project project = e.getData(Project.KEY);
+        if (project == null || dataSource == null) {
+            return;
+        }
 
-		DataSourcesDialog dialog = new DataSourcesDialog(project, dataSource);
-		dialog.showAsync();
-	}
+        DataSourcesDialog dialog = new DataSourcesDialog(project, dataSource);
+        dialog.showAsync();
+    }
 
-	@RequiredUIAccess
-	@Override
-	public void update(@Nonnull AnActionEvent e)
-	{
-		e.getPresentation().setEnabled(e.getData(DataSourceKeys.DATASOURCE) != null);
-	}
+    @Override
+    public void update(@Nonnull AnActionEvent e) {
+        e.getPresentation().setEnabled(e.getData(DataSourceKeys.DATASOURCE) != null);
+    }
 }

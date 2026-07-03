@@ -21,49 +21,44 @@ import consulo.database.impl.editor.DataSourceFileEditorKeys;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.Presentation;
 import consulo.ui.ex.awt.JBLabel;
 import consulo.ui.ex.awt.JBUI;
 import consulo.ui.ex.awt.UIUtil;
 import consulo.ui.ex.awt.action.CustomComponentAction;
-
 import jakarta.annotation.Nonnull;
+
 import javax.swing.*;
 
 /**
  * @author VISTALL
  * @since 09/12/2021
  */
-public class PageAction extends AnAction implements CustomComponentAction
-{
-	@RequiredUIAccess
-	@Override
-	public void actionPerformed(@Nonnull AnActionEvent e)
-	{
+public class PageAction extends AnAction implements CustomComponentAction, AnActionWithSyncUpdate {
+    @RequiredUIAccess
+    @Override
+    public void actionPerformed(@Nonnull AnActionEvent e) {
 
-	}
+    }
 
-	@RequiredUIAccess
-	@Override
-	public void update(@Nonnull AnActionEvent e)
-	{
-		DataSourceFileEditor editor = e.getRequiredData(DataSourceFileEditorKeys.EDITOR);
+    @Override
+    public void update(@Nonnull AnActionEvent e) {
+        DataSourceFileEditor editor = e.getRequiredData(DataSourceFileEditorKeys.EDITOR);
 
-		JBLabel component = (JBLabel) e.getPresentation().getClientProperty(CustomComponentAction.COMPONENT_KEY);
-		if(component == null)
-		{
-			return;
-		}
-		component.setText(editor.getRowsCount() + " rows");
-	}
+        JBLabel component = (JBLabel) e.getPresentation().getClientProperty(CustomComponentAction.COMPONENT_KEY);
+        if (component == null) {
+            return;
+        }
+        component.setText(editor.getRowsCount() + " rows");
+    }
 
-	@Nonnull
-	@Override
-	public JComponent createCustomComponent(@Nonnull Presentation presentation, @Nonnull String place)
-	{
-		JBLabel label = new JBLabel("1 row");
-		label.setBorder(JBUI.Borders.empty(0, 5));
-		label.setFont(UIUtil.getLabelFont(UIUtil.FontSize.MINI));
-		return label;
-	}
+    @Nonnull
+    @Override
+    public JComponent createCustomComponent(@Nonnull Presentation presentation, @Nonnull String place) {
+        JBLabel label = new JBLabel("1 row");
+        label.setBorder(JBUI.Borders.empty(0, 5));
+        label.setFont(UIUtil.getLabelFont(UIUtil.FontSize.MINI));
+        return label;
+    }
 }
