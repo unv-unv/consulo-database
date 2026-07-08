@@ -42,7 +42,8 @@ public class SimpleLoggerFactory implements ILoggerFactory
 	/**
 	 * Return an appropriate {@link SimpleLogger} instance by name.
 	 */
-	public Logger getLogger(String name)
+	@Override
+    public Logger getLogger(String name)
 	{
 		Logger simpleLogger = loggerMap.get(name);
 		if(simpleLogger != null)
