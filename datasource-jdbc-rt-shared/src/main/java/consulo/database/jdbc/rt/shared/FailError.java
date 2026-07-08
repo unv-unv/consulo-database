@@ -132,6 +132,7 @@ public class FailError extends org.apache.thrift.TException implements org.apach
   }
 
   @org.apache.thrift.annotation.Nullable
+  @Override
   public java.lang.String getMessage() {
     return this.message;
   }
